@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Button, Form, Alert } from "react-bootstrap";
-
+import { Button, Form, Card, Alert} from "react-bootstrap";
+import './Fondo.css'
+ 
 const NotaFormulario = () => {
     const [nota1, setnota1] = useState('');
     const [nota2, setnota2] = useState('');
@@ -8,10 +9,10 @@ const NotaFormulario = () => {
     const [mensaje, setMensaje] = useState('');
     const [alerta, setalerta] = useState(false);
 
-    const calcularNota = () => {
-        // Validaciones de los campos
+    const Nota = () => {
         if(nota1 === '' || nota2 === '' || nota3 === '') {
             setalerta(true);
+            
             return;
         }
 
@@ -37,58 +38,47 @@ const NotaFormulario = () => {
         setnota2('');
         setnota3('');
         setMensaje('');
+        setalerta('');
     };
 
     return (
-        <Form>
-            { alerta &&
-                <Alert variant="danger" onClose={() => setalerta(false)} dismissible>
-                    Porfavor llenar todos los campos que les falten Informacion
-                </Alert>
-            }
+       
+        <div className="body-background">
+            <Card className="card-custom">
+                <Form>
+                    {alerta && (
+                        <Form.Text className="text-muted" style={{ marginBottom: '15px', fontSize:25  }}>
+                           Porfavor de llenar todos los campos en blanco.
+                        </Form.Text>
+                    )}
 
-            <Form.Group>
-                <Form.Label>Nota del primer parcial con un maximo de (30%)</Form.Label>
-                <Form.Control
-                    type="number"
-                    value={nota1}
-                    onChange={(n) => setnota1(n.target.value)}
-                    max="30"
-                    min="0"
-                />
-            </Form.Group>
+                    <Form.Group className="input-spacing">
+                        <Form.Label>Nota del primer parcial a un maximo de (30%)</Form.Label>
+                        <Form.Control type="number" value={nota1} onChange={(v) => setnota1(v.target.value)} max="30"  min="0" />
+                    </Form.Group>
 
-            <Form.Group>
-                <Form.Label>Nota del segundo parcial con un maximo de (30%)</Form.Label>
-                <Form.Control
-                    type="number"
-                    value={nota2}
-                    onChange={(n) => setnota2(n.target.value)}
-                    max="30"
-                    min="0"
-                />
-            </Form.Group>
+                    <Form.Group className="input-spacing">
+                        <Form.Label>Nota del segundo parcial a un maximo de (30%)</Form.Label>
+                        <Form.Control type="number" value={nota2} onChange={(v) => setnota2(v.target.value)} max="30" min="0"/>
+                    </Form.Group>
 
-            <Form.Group>
-                <Form.Label>Nota del tercer parcial con un maximo de (40%)</Form.Label>
-                <Form.Control
-                    type="number"
-                    value={nota3}
-                    onChange={(n) => setnota3(n.target.value)}
-                    max="40"
-                    min="0"
-                />
-            </Form.Group>
+                    <Form.Group className="input-spacing">
+                        <Form.Label>Nota del tercer parcial a un maximo de (40%)</Form.Label>
+                        <Form.Control type="number" value={nota3} onChange={(v) => setnota3(v.target.value)} max="40" min="0" />
+                    </Form.Group>
 
-            <Button variant="warning" onClick={calcularNota}>
-                Calcular
-            </Button>
-            <Button variant="secondary" onClick={limpiarCampos} className="ml-2">
-                Limpiar
-            </Button>
+                    <Button variant="primary" onClick={Nota} className="btn-custom">
+                        Sacar Notas
+                    </Button>
+                    <Button variant="light" onClick={limpiarCampos} className="btn-custom">
+                        Limpiar
+                    </Button>
 
-            { mensaje && <div className="mt-3"><strong>{mensaje}</strong></div> }
-        </Form>
+                    {mensaje && <div className="mt-3"><strong>{mensaje}</strong></div>}
+                </Form>
+        
+        </Card>
+        </div>
     );
 }
 
